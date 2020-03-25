@@ -1,12 +1,10 @@
 /*
- * grunt-prettier
- * https://github.com/poalrom/grunt-prettier
+ * grunt-lebab
+ * https://github.com/mridang/grunt-lebab
  *
- * Copyright (c) 2017 Alex Popkov
+ * Copyright (c) 2020 Mridang Agarwalla
  * Licensed under the MIT license.
  */
-
-'use strict';
 
 function tasks(grunt) {
   // Project configuration.
@@ -17,70 +15,14 @@ function tasks(grunt) {
     },
 
     // Configuration to be run (and then tested).
-    prettier: {
+    lebab: {
       // options: {
       //   progress: true
       // },
-      override_with_prettierrc: {
+      override_with_lebabrc: {
         files: {
-          'tmp/formatted_override_with_prettierrc.js':
-            'test/fixtures/override_with_prettierrc/unformatted.js'
-        }
-      },
-      different_extensions: {
-        files: {
-          'tmp/different_extensions/.arcconfig':
-            'test/fixtures/different_extensions/.arcconfig',
-          'tmp/different_extensions/.babelrc':
-            'test/fixtures/different_extensions/.babelrc',
-          'tmp/different_extensions/.eslintrc':
-            'test/fixtures/different_extensions/.eslintrc',
-          'tmp/different_extensions/.jshintrc':
-            'test/fixtures/different_extensions/.jshintrc',
-          'tmp/different_extensions/.prettierrc':
-            'test/fixtures/different_extensions/.prettierrc',
-          'tmp/different_extensions/composer.lock':
-            'test/fixtures/different_extensions/composer.lock',
-          'tmp/different_extensions/Jakefile':
-            'test/fixtures/different_extensions/Jakefile',
-          'tmp/different_extensions/mcmod.info':
-            'test/fixtures/different_extensions/mcmod.info',
-          'tmp/different_extensions/gql.gql':
-            'test/fixtures/different_extensions/gql.gql',
-          'tmp/different_extensions/graphql.graphql':
-            'test/fixtures/different_extensions/graphql.graphql',
-          'tmp/different_extensions/json.json':
-            'test/fixtures/different_extensions/json.json',
-          'tmp/different_extensions/less.less':
-            'test/fixtures/different_extensions/less.less',
-          'tmp/different_extensions/scss.scss':
-            'test/fixtures/different_extensions/scss.scss',
-          'tmp/different_extensions/ts.ts':
-            'test/fixtures/different_extensions/ts.ts',
-          'tmp/different_extensions/tsx.tsx':
-            'test/fixtures/different_extensions/tsx.tsx',
-          'tmp/different_extensions/jsx.jsx':
-            'test/fixtures/different_extensions/jsx.jsx',
-          'tmp/different_extensions/js.js':
-            'test/fixtures/different_extensions/js.js',
-          'tmp/different_extensions/css.css':
-            'test/fixtures/different_extensions/css.css'
-        }
-      },
-      concat_files: {
-        files: {
-          'tmp/formatted_concat_files.js': [
-            'test/fixtures/concat_files/unformatted_1.js',
-            'test/fixtures/concat_files/unformatted_2.js'
-          ]
-        }
-      },
-      concat_with_globe: {
-        files: {
-          'tmp/formatted_concat_with_globe.js': [
-            'test/fixtures/concat_with_globe/*.js',
-            '!test/fixtures/concat_with_globe/*skip.js'
-          ]
+          'tmp/formatted_override_with_lebabrc.js':
+            'test/fixtures/override_with_lebabrc/unformatted.js'
         }
       },
       write_to_original_file: {
@@ -102,7 +44,7 @@ function tasks(grunt) {
         ]
       },
       grunt_file: {
-        src: ['Gruntfile.js', 'tasks/**.*', 'test/prettier_test.js']
+        src: ['Gruntfile.js', 'tasks/**.*', 'test/lebab_test.js']
       }
     },
 
@@ -135,21 +77,6 @@ function tasks(grunt) {
           'tmp/formatted_write_to_original_file_to_check.js':
             'test/expected/write_to_original_file/formatted.js'
         }
-      },
-      check_unformatted_file: {
-        files: {
-          // just creating the folder and the empty file. Will be filled in once exec:quiet_prettier_check is run
-          'tmp/check_unformatted_file/results':
-            'test/fixtures/check_unformatted_file/results'
-        }
-      }
-    },
-    exec: {
-      quiet_prettier_check: {
-        command:
-          'grunt prettier:check_unformatted_file:check --force > tmp/check_unformatted_file/results',
-        stdout: true,
-        stderr: true
       }
     }
   });
@@ -168,8 +95,7 @@ function tasks(grunt) {
   grunt.registerTask('test', [
     'clean',
     'copy',
-    'exec:quiet_prettier_check',
-    'prettier',
+    'lebab',
     'nodeunit'
   ]);
 

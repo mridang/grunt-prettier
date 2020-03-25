@@ -1,6 +1,6 @@
 var OPTIONS = ['printWidth', 'tabWidth', 'singleQuote', 'trailingComma', 'bracketSpacing', 'jsxBracketSameLine', 'parser', 'semi', 'useTabs', 'doc'];
 function setOptions(options) {
-  OPTIONS.forEach(option => {
+  OPTIONS.forEach(function(option) {
     var elem = document.getElementById(option);
     if (elem.tagName === 'SELECT') {
       elem.value = options[option];
@@ -14,7 +14,7 @@ function setOptions(options) {
 
 function getOptions() {
   var options = {};
-  OPTIONS.forEach(option => {
+  OPTIONS.forEach(function(option) {
     var elem = document.getElementById(option);
     if (elem.tagName === 'SELECT') {
       options[option] = elem.value;
@@ -49,7 +49,7 @@ function replaceHash(hash) {
 
 function format() {
   var options = getOptions();
-  [docEditor, outputEditor].forEach(editor => {
+  [docEditor, outputEditor].forEach(function(editor) {
     editor.setOption(
         'rulers',
         [{column: options.printWidth, color: '#444444'}]
@@ -59,7 +59,7 @@ function format() {
 
   var value = encodeURIComponent(
       JSON.stringify(
-          Object.assign({content: inputEditor.getValue(), options})
+          Object.assign({content: inputEditor.getValue(), options: options})
       )
   );
   replaceHash(value);

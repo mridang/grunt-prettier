@@ -1,0 +1,15 @@
+{
+  "transforms": [
+    "arrow",
+    "arrow-return",
+    "for-of",
+    "for-each",
+    "arg-rest",
+    "arg-spread",
+    "obj-method",
+    "obj-shorthand",
+    "no-strict",
+    "exponent",
+    "multi-var"
+  ]
+}

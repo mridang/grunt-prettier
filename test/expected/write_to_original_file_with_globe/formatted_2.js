@@ -1,17 +1,6 @@
-var OPTIONS = [
-  'printWidth',
-  'tabWidth',
-  'singleQuote',
-  'trailingComma',
-  'bracketSpacing',
-  'jsxBracketSameLine',
-  'parser',
-  'semi',
-  'useTabs',
-  'doc'
-];
+var OPTIONS = ['printWidth', 'tabWidth', 'singleQuote', 'trailingComma', 'bracketSpacing', 'jsxBracketSameLine', 'parser', 'semi', 'useTabs', 'doc'];
 function setOptions(options) {
-  OPTIONS.forEach(function(option) {
+  OPTIONS.forEach(option => {
     var elem = document.getElementById(option);
     if (elem.tagName === 'SELECT') {
       elem.value = options[option];
@@ -25,7 +14,7 @@ function setOptions(options) {
 
 function getOptions() {
   var options = {};
-  OPTIONS.forEach(function(option) {
+  OPTIONS.forEach(option => {
     var elem = document.getElementById(option);
     if (elem.tagName === 'SELECT') {
       options[option] = elem.value;
@@ -46,9 +35,9 @@ function omitNonFormatterOptions(options) {
 
 function replaceHash(hash) {
   if (
-    typeof URL === 'function' &&
-    typeof history === 'object' &&
-    typeof history.replaceState === 'function'
+      typeof URL === "function" &&
+      typeof history === "object" &&
+      typeof history.replaceState === "function"
   ) {
     var url = new URL(location);
     url.hash = hash;
@@ -60,19 +49,18 @@ function replaceHash(hash) {
 
 function format() {
   var options = getOptions();
-  [docEditor, outputEditor].forEach(function(editor) {
-    editor.setOption('rulers', [
-      { column: options.printWidth, color: '#444444' }
-    ]);
+  [docEditor, outputEditor].forEach(editor => {
+    editor.setOption(
+        'rulers',
+        [{column: options.printWidth, color: '#444444'}]
+    );
   });
-  document.getElementsByClassName('doc')[0].style.display = options.doc
-    ? 'flex'
-    : 'none';
+  document.getElementsByClassName('doc')[0].style.display = options.doc ? 'flex' : 'none';
 
   var value = encodeURIComponent(
-    JSON.stringify(
-      Object.assign({ content: inputEditor.getValue(), options: options })
-    )
+      JSON.stringify(
+          Object.assign({content: inputEditor.getValue(), options})
+      )
   );
   replaceHash(value);
   var formatterOptions = omitNonFormatterOptions(options);
@@ -87,10 +75,7 @@ function format() {
   if (options.doc) {
     var debug;
     try {
-      var doc = prettier.__debug.printToDoc(
-        inputEditor.getValue(),
-        formatterOptions
-      );
+      var doc = prettier.__debug.printToDoc(inputEditor.getValue(), formatterOptions);
       debug = prettier.__debug.formatDoc(doc, formatterOptions);
     } catch (e) {
       debug = e.toString();
@@ -103,7 +88,7 @@ document.getElementsByClassName('options')[0].onchange = format;
 
 var editorOptions = {
   lineNumbers: true,
-  keyMap: 'sublime',
+  keyMap: "sublime",
   autoCloseBrackets: true,
   matchBrackets: true,
   showCursorWhenSelecting: true,
@@ -111,20 +96,19 @@ var editorOptions = {
   tabWidth: 2
 };
 var inputEditor = CodeMirror.fromTextArea(
-  document.getElementById('input-editor'),
-  editorOptions
+    document.getElementById('input-editor'),
+    editorOptions
 );
 inputEditor.on('change', format);
 
-var docEditor = CodeMirror.fromTextArea(document.getElementById('doc-editor'), {
-  readOnly: true,
-  lineNumbers: true,
-  theme: 'base16-dark'
-});
+var docEditor = CodeMirror.fromTextArea(
+    document.getElementById('doc-editor'),
+    {readOnly: true, lineNumbers: true, theme: 'base16-dark'}
+);
 
 var outputEditor = CodeMirror.fromTextArea(
-  document.getElementById('output-editor'),
-  { readOnly: true, lineNumbers: true, theme: 'base16-dark' }
+    document.getElementById('output-editor'),
+    {readOnly: true, lineNumbers: true, theme: 'base16-dark'}
 );
 
 document.getElementsByClassName('version')[0].innerText = prettier.version;

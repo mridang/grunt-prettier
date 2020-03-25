@@ -9,4 +9,4 @@ cache:
     - "node_modules"
 before_script:
   - npm install -g grunt-cli
-script: grunt prettier test
+script: grunt lebab test
