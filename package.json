@@ -1,5 +1,5 @@
 {
-  "name": "grunt-lebab",
+  "name": "@mridang/grunt-lebab",
   "description": "Lebab plugin for Grunt",
   "version": "0.0.1",
   "homepage": "https://github.com/mridang/grunt-lebab",
