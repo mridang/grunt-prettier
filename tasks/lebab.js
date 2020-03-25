@@ -65,7 +65,7 @@ function lebabTask(grunt) {
           unformattedCode = grunt.file.read(filepath);
           const {code, warnings} = lebab.transform(unformattedCode, options.transforms);
           warnings.forEach(({msg, line}) => {
-            grunt.log(`${msg} processing ${filepath} on L${line}`);
+            grunt.fail.warn(`${msg} processing ${filepath} on L${line}`);
           });
           grunt.file.write(filepath, code);
 
@@ -85,7 +85,7 @@ function lebabTask(grunt) {
 
         const {code, warnings} = lebab.transform(unformattedCode, options.transforms);
         warnings.forEach(({msg, line}) => {
-          grunt.log(`${msg} processing ${codeFiles[0]} on L${line}`);
+          grunt.fail.warn(`${msg} processing ${codeFiles[0]} on L${line}`);
         });
         grunt.file.write(dest, code);
         if (progress) {
