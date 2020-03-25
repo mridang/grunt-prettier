@@ -35,12 +35,12 @@ function lebabTask(grunt) {
     delete options.configFile;
 
     // Iterate over all specified file groups.
-    this.files.forEach(f => {
+    this.files.forEach(({src, dest}) => {
       // Check specified files.
-      let codeFiles = f.src.filter(filepath => {
+      let codeFiles = src.filter(filepath => {
         // Warn on and remove invalid source files (if nonull was set).
         if (!grunt.file.exists(filepath)) {
-          grunt.log.warn('Source file "' + filepath + '" not found.');
+          grunt.log.warn(`Source file "${filepath}" not found.`);
           return false;
         } else {
           return true;
@@ -58,18 +58,21 @@ function lebabTask(grunt) {
       let formattedCode;
       let unformattedCode;
 
-      if (typeof f.dest === 'undefined') {
+      if (typeof dest === 'undefined') {
         let checkStatus = true;
         // If f.dest is undefined, then write formatted code to original files.
         codeFiles.map(filepath => {
           unformattedCode = grunt.file.read(filepath);
           const {code, warnings} = lebab.transform(unformattedCode, options.transforms);
+          warnings.forEach(({msg, line}) => {
+            grunt.log(`${msg} processing ${filepath} on L${line}`);
+          });
           grunt.file.write(filepath, code);
 
           if (progress) {
             bar.tick();
           } else {
-            grunt.log.writeln('Lebabify file "' + filepath + '".');
+            grunt.log.writeln(`Lebabify file "${filepath}".`);
           }
         });
 
@@ -81,11 +84,14 @@ function lebabTask(grunt) {
         unformattedCode = codeFiles.map(filepath => grunt.file.read(filepath)).join('');
 
         const {code, warnings} = lebab.transform(unformattedCode, options.transforms);
-        grunt.file.write(f.dest, code);
+        warnings.forEach(({msg, line}) => {
+          grunt.log(`${msg} processing ${codeFiles[0]} on L${line}`);
+        });
+        grunt.file.write(dest, code);
         if (progress) {
           bar.tick();
         } else {
-          grunt.log.writeln('Lebabify file "' + f.dest + '".');
+          grunt.log.writeln(`Lebabify file "${dest}".`);
         }
       }
     });
